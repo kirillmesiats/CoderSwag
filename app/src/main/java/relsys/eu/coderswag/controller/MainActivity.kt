@@ -1,7 +1,8 @@
-package relsys.eu.coderswag
+package relsys.eu.coderswag.controller
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import relsys.eu.coderswag.R
 
 class MainActivity : AppCompatActivity() {
 
