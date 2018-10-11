@@ -15,7 +15,9 @@ class CategoryRecyclerAdapter(private val context : Context, private val categor
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.category_list_item, parent, false)
-        return Holder(view, itemClick)
+        return Holder(view, categories) { position ->
+            itemClick(categories[position])
+        }
     }
 
     override fun getItemCount(): Int {
@@ -26,18 +28,21 @@ class CategoryRecyclerAdapter(private val context : Context, private val categor
         holder.bindCategory(categories[position], context)
     }
 
-    class Holder(itemView: View, private val itemClick: (Category) -> Unit) : RecyclerView.ViewHolder(itemView) {
+    class Holder(itemView: View, categories: List<Category>, private val itemClick: (Int) -> Unit) : RecyclerView.ViewHolder(itemView) {
         val categoryImage = itemView.findViewById<ImageView>(R.id.categoryImage)
         val categoryName = itemView.findViewById<TextView>(R.id.categoryName)
+
+        init {
+            itemView.setOnClickListener {
+                itemClick(adapterPosition)
+            }
+        }
 
         fun bindCategory(category: Category, context: Context) {
             val resourceId = context.resources.getIdentifier(category.image, "drawable",
                     context.packageName)
             categoryImage.setImageResource(resourceId)
             categoryName.text = category.title
-            itemView.setOnClickListener{
-                itemClick(category)
-            }
         }
     }
 }
